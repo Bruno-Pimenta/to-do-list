@@ -5,8 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ProfileRequestDTO {
     @NotBlank(message = "O nome de usuário é obrigatório")
@@ -21,5 +23,4 @@ public class ProfileRequestDTO {
     @NotBlank(message = "A senha é obrigatória")
     @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
     private String password;
-
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
@@ -31,15 +32,27 @@ public class TaskService {
         }return false;
     }
 
-    public List<TaskResponseDTO> getAllTasksById(Integer id){
-        List<Task> tasks = taskRepository.getAllTasksById(id);
+    public List<TaskResponseDTO> getAllTasksById(Integer user_id){
+        List<Task> tasks = taskRepository.getAllTasksById(user_id);
         List<TaskResponseDTO> dtos = new ArrayList<>();
 
         tasks.forEach(task ->{
-            TaskResponseDTO dto = TaskResponseDTO.tasktoDTO(task);
+            TaskResponseDTO dto = TaskResponseDTO.taskToDTO(task);
             dtos.add(dto);
         });
         return dtos;
     }
 
+    public TaskResponseDTO getTaskById (Integer user_id, Integer task_id) {
+        Task task = this.taskRepository.getTaskById(user_id, task_id);
+        if (task != null) {
+            return TaskResponseDTO.taskToDTO(task);
+        }return new TaskResponseDTO();
+    }
+
+    public boolean deleteTaskById (Integer user_id, Integer task_id) {
+        taskRepository.deleteById(task_id);
+        Task task = taskRepository.getTaskById(user_id, task_id);
+        return task == null;
+    }
 }

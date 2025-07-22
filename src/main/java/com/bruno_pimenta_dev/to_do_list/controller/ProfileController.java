@@ -35,7 +35,7 @@ public class ProfileController {
         return profilesDto;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{user_id}")
     public String deleteProfile(@PathVariable Integer id){
         boolean returnDelete = service.deleteProfile(id);
         if(returnDelete){

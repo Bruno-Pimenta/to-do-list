@@ -8,23 +8,32 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@RequestMapping("profiles/{id}/tasks")
+@RequestMapping("profiles/{user_id}/tasks")
 public class TaskController {
     @Autowired
     private TaskService service;
 
     @PostMapping
-    public String insertTask(@Valid @RequestBody TaskRequestDTO dto, @PathVariable Integer id){
-        if(service.insertTask(dto, id)){
+    public String insertTask(@Valid @RequestBody TaskRequestDTO dto, @PathVariable Integer user_id){
+        if(service.insertTask(dto, user_id)){
             return "Tarefa salva com sucesso!";
         }return "Falha ao inserir a tarefa";
     }
 
     @GetMapping
-    public List<TaskResponseDTO> tasks(@PathVariable Integer id){
-        return service.getAllTasksById(id);
+    public List<TaskResponseDTO> getAllTasksById(@PathVariable Integer user_id){
+        return service.getAllTasksById(user_id);
+    }
+
+    @GetMapping("{task_id}")
+    public TaskResponseDTO getTaskById(@PathVariable Integer user_id, @PathVariable Integer task_id) { return service.getTaskById(user_id, task_id); }
+
+    @DeleteMapping("{task_id}")
+    public String deleteTaskById(@PathVariable Integer user_id, @PathVariable Integer task_id) {
+        return service.deleteTaskById(user_id, task_id) ? "Tarefa apagada com sucesso!" : "Falha ao apagar tarefa";
     }
 }
