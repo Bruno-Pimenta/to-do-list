@@ -3,6 +3,7 @@ package com.bruno_pimenta_dev.to_do_list.infraestructure.entity;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.ProfileRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
@@ -10,6 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "tb_profiles")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,21 +41,6 @@ public class Profile {
         this.passwordHash = passwordHash;
         this.createdAt = Instant.now();
         this.tasks = new ArrayList<Task>();
-    }
-
-    public Profile() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getEmail() {
-        return email;
     }
 
     public static Profile dtoToProfile(ProfileRequestDTO dto){

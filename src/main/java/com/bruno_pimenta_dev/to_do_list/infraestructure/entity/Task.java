@@ -1,5 +1,6 @@
 package com.bruno_pimenta_dev.to_do_list.infraestructure.entity;
 
+import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,13 +12,16 @@ import java.time.Instant;
 @AllArgsConstructor
 @Data
 @Entity
+@Table(name = "tb_tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "description")
     private String description;
 
     @Column(name = "task_date", nullable = false)
@@ -32,5 +36,14 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "profile_id", nullable = false)
     private Profile profile;
+
+    public Task(String title, String description, Instant taskDate, Profile profile) {
+        this.title = title;
+        this.description = description;
+        this.taskDate = taskDate;
+        this.isCompleted = false;
+        this.createdAt = Instant.now();
+        this.profile = profile;
+    }
 
 }

@@ -1,4 +1,4 @@
-CREATE TABLE profiles (
+CREATE TABLE tb_profiles (
     id SERIAL PRIMARY KEY,
     user_name TEXT NOT NULL,
     e_mail TEXT NOT NULL UNIQUE,

@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/profiles")
 public class ProfileController {
     @Autowired
     private ProfileService service;
 
-    @PostMapping("/save")
+    @PostMapping
     public String saveProfile(@Valid @RequestBody ProfileRequestDTO dto){
         boolean returnSave = service.saveProfile(dto);
         if(returnSave){

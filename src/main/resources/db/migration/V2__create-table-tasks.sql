@@ -1,4 +1,4 @@
-CREATE TABLE tasks (
+CREATE TABLE tb_tasks (
     id SERIAL PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT,
@@ -6,6 +6,6 @@ CREATE TABLE tasks (
     is_completed BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMP NOT NULL,
     profile_id INTEGER NOT NULL,
-    CONSTRAINT fk_profile FOREIGN KEY (profile_id) REFERENCES profiles(id)
+    CONSTRAINT fk_profile FOREIGN KEY (profile_id) REFERENCES tb_profiles(id)
 );
 
