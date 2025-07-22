@@ -10,8 +10,11 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Integer> {
+    final String SELECT = "SELECT * from tb_tasks ";
 
-    @Query(nativeQuery = true, value = "SELECT * from tb_tasks "
-    +"WHERE profile_id = :id")
+    @Query(nativeQuery = true, value = SELECT + "WHERE profile_id = :id")
     List<Task> getAllTasksById(Integer id);
+
+    @Query(nativeQuery = true, value = SELECT + "WHERE profile_id = :user_id " + "AND id = :task_id")
+    Task getTaskById(Integer user_id, Integer task_id);
 }
