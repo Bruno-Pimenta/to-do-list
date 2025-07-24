@@ -1,14 +1,13 @@
 package com.bruno_pimenta_dev.to_do_list.controller;
 
-import com.bruno_pimenta_dev.to_do_list.business.TaskService;
+import com.bruno_pimenta_dev.to_do_list.business.service.TaskService;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskRequestDTO;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskResponseDTO;
-import com.bruno_pimenta_dev.to_do_list.infraestructure.entity.Task;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,9 @@ public class TaskController {
     }
 
     @GetMapping("{task_id}")
-    public TaskResponseDTO getTaskById(@PathVariable Integer user_id, @PathVariable Integer task_id) { return service.getTaskById(user_id, task_id); }
+    public ResponseEntity<TaskResponseDTO> getTaskById(@PathVariable Integer user_id, @PathVariable Integer task_id) {
+        return ResponseEntity.ok(service.getTaskById(user_id, task_id));
+    }
 
     @DeleteMapping("{task_id}")
     public String deleteTaskById(@PathVariable Integer user_id, @PathVariable Integer task_id) {

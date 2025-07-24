@@ -1,6 +1,6 @@
 package com.bruno_pimenta_dev.to_do_list.controller;
 
-import com.bruno_pimenta_dev.to_do_list.business.ProfileService;
+import com.bruno_pimenta_dev.to_do_list.business.service.ProfileService;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.ProfileRequestDTO;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.ProfileResponseDTO;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.entity.Profile;

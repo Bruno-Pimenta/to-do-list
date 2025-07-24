@@ -1,4 +1,4 @@
-package com.bruno_pimenta_dev.to_do_list.business;
+package com.bruno_pimenta_dev.to_do_list.business.service;
 
 import com.bruno_pimenta_dev.to_do_list.infraestructure.repository.ProfileRepository;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.ProfileRequestDTO;

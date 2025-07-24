@@ -1,5 +1,6 @@
-package com.bruno_pimenta_dev.to_do_list.business;
+package com.bruno_pimenta_dev.to_do_list.business.service;
 
+import com.bruno_pimenta_dev.to_do_list.exception.ResourceNotFoundException;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskRequestDTO;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskResponseDTO;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.entity.Profile;
@@ -44,10 +45,11 @@ public class TaskService {
     }
 
     public TaskResponseDTO getTaskById (Integer user_id, Integer task_id) {
-        Task task = this.taskRepository.getTaskById(user_id, task_id);
-        if (task != null) {
-            return TaskResponseDTO.taskToDTO(task);
-        }return new TaskResponseDTO();
+        Optional<Task> optional = Optional.ofNullable(this.taskRepository.getTaskById(user_id, task_id));
+        if (optional.isPresent()) {
+            return TaskResponseDTO.taskToDTO(optional.get());
+        }
+        throw new ResourceNotFoundException("Task não encontrada");
     }
 
     public boolean deleteTaskById (Integer user_id, Integer task_id) {
