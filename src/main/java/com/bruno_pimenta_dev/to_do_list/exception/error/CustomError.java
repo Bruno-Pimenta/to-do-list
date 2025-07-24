@@ -1,7 +1,6 @@
 package com.bruno_pimenta_dev.to_do_list.exception.error;
 
 import lombok.Data;
-
 import java.time.Instant;
 
 @Data

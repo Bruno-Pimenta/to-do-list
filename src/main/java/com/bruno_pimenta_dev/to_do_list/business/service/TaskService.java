@@ -1,5 +1,6 @@
 package com.bruno_pimenta_dev.to_do_list.business.service;
 
+import com.bruno_pimenta_dev.to_do_list.exception.DatabaseException;
 import com.bruno_pimenta_dev.to_do_list.exception.ResourceNotFoundException;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskRequestDTO;
 import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskResponseDTO;
@@ -9,7 +10,6 @@ import com.bruno_pimenta_dev.to_do_list.infraestructure.repository.ProfileReposi
 import com.bruno_pimenta_dev.to_do_list.infraestructure.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,19 +22,17 @@ public class TaskService {
     @Autowired
     private ProfileRepository profileRepository;
 
-    public boolean insertTask(TaskRequestDTO dto, Integer id){
-        Profile profile = profileRepository.findById(id).orElse(null);
-        if(profile==null){
-            return false;
-        }Task task = TaskRequestDTO.dtoToTask(dto, profile);
+    public Long insertTask(TaskRequestDTO dto, Long id){
+        Optional<Profile> optional = profileRepository.findById(id);
+        if(optional.isEmpty()){
+            throw new DatabaseException("Falha ao cadastrar a tarefa");
+        }Task task = TaskRequestDTO.dtoToTask(dto, optional.get());
         Task taskSaved = taskRepository.save(task);
-        if(taskSaved!=null){
-            return true;
-        }return false;
+        return taskSaved.getId();
     }
 
-    public List<TaskResponseDTO> getAllTasksById(Integer user_id){
-        List<Task> tasks = taskRepository.getAllTasksById(user_id);
+    public List<TaskResponseDTO> getAllTasksByUserId(Long userId){
+        List<Task> tasks = taskRepository.getAllTasksByProfileId(userId);
         List<TaskResponseDTO> dtos = new ArrayList<>();
 
         tasks.forEach(task ->{
@@ -44,17 +42,43 @@ public class TaskService {
         return dtos;
     }
 
-    public TaskResponseDTO getTaskById (Integer user_id, Integer task_id) {
-        Optional<Task> optional = Optional.ofNullable(this.taskRepository.getTaskById(user_id, task_id));
+    public TaskResponseDTO getTaskById (Long userId, Long taskId) {
+        Optional<Task> optional = Optional.ofNullable(this.taskRepository.getTaskById(userId, taskId));
         if (optional.isPresent()) {
             return TaskResponseDTO.taskToDTO(optional.get());
         }
         throw new ResourceNotFoundException("Task não encontrada");
     }
 
-    public boolean deleteTaskById (Integer user_id, Integer task_id) {
-        taskRepository.deleteById(task_id);
-        Task task = taskRepository.getTaskById(user_id, task_id);
-        return task == null;
+    public Long updateTask(Long userId, Long taskId, TaskRequestDTO dto){
+        Optional<Task> optionalTask = Optional.ofNullable(this.taskRepository.getTaskById(userId, taskId));
+        Optional<Profile> optionalProfile = this.profileRepository.findById(userId);
+        if(optionalProfile.isPresent() && optionalTask.isPresent()){
+            Task taskUpdated = TaskRequestDTO.dtoToTask(dto, optionalProfile.get());
+            taskUpdated.setId(optionalTask.get().getId());
+            this.taskRepository.save(taskUpdated);
+            return taskUpdated.getId();
+        }else if(optionalTask.isEmpty()){
+            throw new ResourceNotFoundException("Tarefa não encontrada");
+        }
+        throw new DatabaseException("Falha ao editar a tarefa");
+    }
+
+    public void deleteTaskById (Long userId, Long taskId) {
+        if(taskRepository.existsById(taskId) && taskRepository.existsById(userId)){
+            taskRepository.deleteById(taskId);
+            return;
+        }
+        throw new ResourceNotFoundException("Task não encontrada");
+    }
+
+    public boolean changeTaskStatus(Long userId, Long taskId){
+        Optional<Task> optionalTask = Optional.ofNullable(this.taskRepository.getTaskById(userId, taskId));
+        if(optionalTask.isPresent()){
+            Task task = optionalTask.get();
+            task.setCompleted(!task.isCompleted());
+            taskRepository.saveAndFlush(task);
+            return task.isCompleted();
+        }throw new DatabaseException("Falha ao editar a tarefa");
     }
 }

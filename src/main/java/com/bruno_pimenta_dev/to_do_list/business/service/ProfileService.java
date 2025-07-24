@@ -25,9 +25,9 @@ public class ProfileService {
         return repository.findAll();
     }
 
-    public boolean deleteProfile(Integer id){
-        repository.deleteById(id);
-        Profile profile = repository.findById(id).orElse(null);
+    public boolean deleteProfile(Long userId){
+        repository.deleteById(userId);
+        Profile profile = repository.findById(userId).orElse(null);
         if(profile!=null){
             return false;
         }return true;

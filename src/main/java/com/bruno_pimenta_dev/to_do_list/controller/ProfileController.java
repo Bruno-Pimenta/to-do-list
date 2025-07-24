@@ -35,11 +35,13 @@ public class ProfileController {
         return profilesDto;
     }
 
-    @DeleteMapping("/{user_id}")
-    public String deleteProfile(@PathVariable Integer id){
-        boolean returnDelete = service.deleteProfile(id);
+    @DeleteMapping("/{user-id}")
+    public String deleteProfile(@PathVariable("user-id") Long userId){
+        boolean returnDelete = service.deleteProfile(userId);
         if(returnDelete){
             return "Perfil apagado com sucesso!";
         }return "Falha ao apagar perfil";
     }
+
+
 }

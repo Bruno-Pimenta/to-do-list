@@ -1,12 +1,9 @@
 package com.bruno_pimenta_dev.to_do_list.infraestructure.dto;
 
 import com.bruno_pimenta_dev.to_do_list.infraestructure.entity.Task;
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 

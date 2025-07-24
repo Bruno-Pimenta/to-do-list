@@ -1,11 +1,9 @@
 package com.bruno_pimenta_dev.to_do_list.infraestructure.entity;
 
-import com.bruno_pimenta_dev.to_do_list.infraestructure.dto.TaskRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.Instant;
 
 @NoArgsConstructor

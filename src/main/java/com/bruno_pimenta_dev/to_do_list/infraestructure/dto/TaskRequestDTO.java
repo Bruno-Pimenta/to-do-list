@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -32,8 +31,7 @@ public class TaskRequestDTO {
 
     public static Task dtoToTask(TaskRequestDTO dto, Profile profile){
         Instant taskDate = toInstant(dto);
-        Task task = new Task(dto.getTitle(), dto.getDescription(), taskDate, profile);
-        return task;
+        return new Task(dto.getTitle(), dto.getDescription(), taskDate, profile);
     }
 
     private static Instant toInstant(TaskRequestDTO dto) {

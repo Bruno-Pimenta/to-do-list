@@ -1,9 +1,6 @@
 package com.bruno_pimenta_dev.to_do_list.infraestructure.dto;
 
 import com.bruno_pimenta_dev.to_do_list.infraestructure.entity.Profile;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
 import java.util.List;
 
 public class ProfileResponseDTO {
